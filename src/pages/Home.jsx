@@ -7,8 +7,7 @@ function Home() {
   const [search, setSearch] = useState("");
 
   // recupero i dati
-  const { products } = useContext(ProductContext);
-
+  const { products, error } = useContext(ProductContext);
   // articoli filtrati
   const filtered = products.filter((p) =>
     p.title.toLowerCase().includes(search.toLowerCase())
@@ -26,8 +25,16 @@ function Home() {
           </p>
         </header>
 
-        {/* main */}
+        {/* M A I N */}
         <main>
+          {/* Mostra l'errore se esiste */}
+          {error && (
+            <div className="mb-8 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg text-center max-w-md mx-auto">
+              <strong>Error:</strong> {error}. Please check if the server is
+              running.
+            </div>
+          )}
+
           {/* barra di ricerca */}
           <div className="mb-8 flex justify-center">
             <input
