@@ -1,17 +1,18 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { ProductContext } from "../context/ProductContext";
 import ProductCard from "../components/ProductCard";
 
 function Home() {
+  // stati
+  const [search, setSearch] = useState("");
+
   // recupero i dati
   const { products } = useContext(ProductContext);
 
-  // Console log dati quando arrivano - test poi map
-  useEffect(() => {
-    if (products.length > 0) {
-      console.log("Dati ricevuti con successo:", products);
-    }
-  }, [products]);
+  // articoli filtrati
+  const filtered = products.filter((p) =>
+    p.title.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <>
@@ -25,14 +26,25 @@ function Home() {
           </p>
         </header>
 
-        {/* Main*/}
-        {/* Map prodotti in crd*/}
+        {/* main */}
+        <main>
+          {/* barra di ricerca */}
+          <div className="mb-8 flex justify-center">
+            <input
+              type="text"
+              placeholder="Search by title..."
+              className="p-2 border rounded-lg w-full max-w-md shadow-sm focus:ring-2 focus:ring-indigo-500 outline-none"
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((item) => (
-            <ProductCard key={item.id} product={item} />
-          ))}
-        </div>
+          {/* Map prodotti in crd*/}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filtered.map((item) => (
+              <ProductCard key={item.id} product={item} />
+            ))}
+          </div>
+        </main>
       </div>
     </>
   );
