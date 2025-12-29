@@ -1,8 +1,9 @@
-import React, { useContext, useEffect } from 'react';
-import { ProductContext } from '../context/ProductContext';
+import React, { useContext, useEffect } from "react";
+import { ProductContext } from "../context/ProductContext";
+import ProductCard from "../components/ProductCard";
 
 function Home() {
- // recupero i dati
+  // recupero i dati
   const { products } = useContext(ProductContext);
 
   // Console log dati quando arrivano - test poi map
@@ -20,11 +21,18 @@ function Home() {
             Dog Harness <span className="text-indigo-600">Comparison Tool</span>
           </h1>
           <p className="text-center text-slate-600 max-w-2xl mx-auto text-lg">
-            Compare technical specifications, materials, and safety features to
-            find the perfect fit for your dog.
+            Compare the best dog harnesses and find the perfect fit.{" "}
           </p>
         </header>
+
         {/* Main*/}
+        {/* Map prodotti in crd*/}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {products.map((item) => (
+            <ProductCard key={item.id} product={item} />
+          ))}
+        </div>
       </div>
     </>
   );
