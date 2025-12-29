@@ -1,6 +1,17 @@
-import React from "react";
+import React, { useContext, useEffect } from 'react';
+import { ProductContext } from '../context/ProductContext';
 
 function Home() {
+ // recupero i dati
+  const { products } = useContext(ProductContext);
+
+  // Console log dati quando arrivano - test poi map
+  useEffect(() => {
+    if (products.length > 0) {
+      console.log("Dati ricevuti con successo:", products);
+    }
+  }, [products]);
+
   return (
     <>
       <div className="min-h-screen bg-gray-50">
