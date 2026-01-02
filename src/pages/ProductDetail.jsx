@@ -8,14 +8,13 @@ const ProductDetail = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log(id)
     const fetchSingleProduct = async () => {
       try {
         const response = await fetch(`http://localhost:3001/products/${id}`);
         if (!response.ok) throw new Error("Product not found");
         const data = await response.json();
         setProduct(data.product);
-        console.log(data)
+        console.log(data.product)
       } catch (err) {
         setError(err.message);
       }
@@ -46,11 +45,38 @@ const ProductDetail = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
             <div className="bg-slate-50 p-6 rounded-xl">
-              <h3 className="font-bold text-slate-800 mb-2">Technical Specs</h3>
+              <h3 className="font-bold text-slate-800 mb-2">Product Details</h3>
               <ul className="text-slate-600 space-y-2 text-sm">
                 <li><strong>Brand:</strong> {product.brand}</li>
+                <li><strong>Category:</strong> {product.category}</li>
+                <li><strong>Adjustable:</strong> {product.adjustable ? "Yes" : "No"}</li>
                 <li><strong>No-Pull:</strong> {product.noPull ? "Yes" : "No"}</li>
                 <li><strong>Padded:</strong> {product.padded ? "Yes" : "No"}</li>
+                <li>
+                <strong>Available Colors:</strong>
+                  <div className="inline-flex flex-wrap gap-2 ml-2">
+                      {product.color.map((c, index) => (
+                        <span key={index} className="text-slate-600">
+                          {c}{index < product.color.length - 1 ? "," : ""}
+                        </span>
+                      ))}
+                    </div>
+                </li>
+                 <li>
+                <strong>Avaibile Sizes: :</strong>
+                  <div className="inline-flex flex-wrap gap-2 ml-2">
+                      {product.dogSize.map((c, index) => (
+                        <span key={index} className="text-slate-600">
+                          {c}{index < product.color.length - 1 ? "," : ""}
+                        </span>
+                      ))}
+                    </div>
+                </li>
+                <li><strong>Material:</strong> {product.material}</li>
+                <li><strong>Rating:</strong> {product.rating} ({product.reviewCount})</li>
+
+
+
               </ul>
             </div>
             
