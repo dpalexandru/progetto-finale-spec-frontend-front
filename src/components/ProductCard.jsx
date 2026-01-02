@@ -1,8 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const ProductCard = ({ product }) => {
   return (
-    <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+    <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
       {/* Categoria come span sopra */}
       <span className="text-xs font-semibold text-indigo-600 uppercase tracking-widest">
         {product.category}
@@ -13,12 +14,12 @@ const ProductCard = ({ product }) => {
         {product.title}
       </h3>
 
-      {/* Bottone non funzionante oer ora  */}
-      <div className="mt-6 pt-6 border-t border-slate-50">
-        <button className="text-sm font-semibold text-indigo-600 hover:text-indigo-800 transition-colors">
-          View Details →
+      {/* Botton:  detteglio + compara */}
+      <Link to={`/product/${product.id}`} className="block">
+        <button className="mt-4 w-full bg-indigo-600 text-white py-2 rounded-lg">
+          View Full Details
         </button>
-      </div>
+      </Link>
     </div>
   );
 };

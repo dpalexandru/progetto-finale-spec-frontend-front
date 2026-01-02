@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState,useEffect } from "react";
 import { ProductContext } from "../context/ProductContext";
 import ProductCard from "../components/ProductCard";
 
@@ -10,6 +10,12 @@ function Home() {
 
   // recupero i dati
   const { products, error } = useContext(ProductContext);
+
+useEffect(() => {
+console.log(products)
+}, [products])
+
+
   // articoli filtrati
  const filtered = products
   .filter((p) => p.title.toLowerCase().includes(search.toLowerCase()))
@@ -28,7 +34,7 @@ function Home() {
             Dog Harness <span className="text-indigo-600">Comparison Tool</span>
           </h1>
           <p className="text-center text-slate-600 max-w-2xl mx-auto text-lg">
-            Compare the best dog harnesses and find the perfect fit.{" "}
+            Select and <span className="text-indigo-600">Compare</span> the best dog harnesses and find the perfect fit.{" "}
           </p>
         </header>
 
