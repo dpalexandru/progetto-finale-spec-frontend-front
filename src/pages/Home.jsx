@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { ProductContext } from "../context/ProductContext";
 import ProductCard from "../components/ProductCard";
+import { Link } from "react-router-dom";
 
 function Home() {
   // stati
@@ -57,6 +58,20 @@ function Home() {
             You can only compare 2 items at a time
           </p>
         </div>
+      </div>
+
+      {/* tasto compare  */}
+      <div
+        className={`fixed bottom-10 left-1/2 -translate-x-1/2 z-40 transition-all duration-500 ${
+          selectedIds.length === 2
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-10 pointer-events-none"
+        }`}>
+        <Link
+          to={`/compare/${selectedIds[0]}/${selectedIds[1]}`}
+          className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-full shadow-2xl flex items-center gap-3 font-bold tracking-wide transform transition-transform hover:scale-105 active:scale-95 border-2 border-white/20 backdrop-blur-sm">
+          Compare
+        </Link>
       </div>
 
       <div className="min-h-screen bg-gray-50">
