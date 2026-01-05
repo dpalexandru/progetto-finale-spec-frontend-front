@@ -8,6 +8,7 @@ function Home() {
   const [category, setCategory] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
   const [selectedIds, setSelectedIds] = useState([]);
+  const [warning, setWarning] = useState(false);
 
   // Funzione per gestire la selezione (se clicco la stessa, si deseleziona)
   const handleSelect = (id) => {
@@ -16,7 +17,8 @@ function Home() {
         return prev.filter((item) => item !== id);
       }
       if (prev.length >= 2) {
-        alert("You can only compare 2 items at a time");
+        setWarning(true);
+        setTimeout(() => setWarning(false), 2000);
         return prev;
       }
       return [...prev, id];
@@ -42,6 +44,21 @@ function Home() {
 
   return (
     <>
+      {/* Messaggio di avviso in caso si tenti di selezionare piu di due elementi */}
+      <div
+        className={`fixed bottom-10 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ${
+          warning
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-10 pointer-events-none"
+        }`}>
+        <div className="bg-slate-800 text-white px-6 py-3 rounded-full shadow-2xl border border-slate-700 flex items-center gap-3">
+          <span className="text-yellow-400">⚠️</span>
+          <p className="text-sm font-medium">
+            You can only compare 2 items at a time
+          </p>
+        </div>
+      </div>
+
       <div className="min-h-screen bg-gray-50">
         <header className="py-5">
           <h1 className="text-center text-4xl md:text-5xl font-bold mb-4 tracking-tight text-slate-900">
