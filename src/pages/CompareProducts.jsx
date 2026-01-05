@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 const CompareProducts = () => {
@@ -6,10 +6,50 @@ const CompareProducts = () => {
   const { id1, id2 } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log("ID Prodotto 1:", id1);
-    console.log("ID Prodotto 2:", id2);
+
+  //stati 
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null); 
+
+
+  // use effect con promise all per due chiamate in contemporanea 
+useEffect(() => {
+    const fetchBothProducts = async () => {
+      setLoading(true);
+      try {
+        // Promise.all lancia le chiamate in parallelo
+        const [res1, res2] = await Promise.all([
+          fetch(`http://localhost:3001/products/${id1}`),
+          fetch(`http://localhost:3001/products/${id2}`)
+        ]);
+
+        if (!res1.ok || !res2.ok) throw new Error("products not found");
+
+        const data1 = await res1.json();
+        const data2 = await res2.json();
+        setProducts([data1.product, data2.product]);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBothProducts();
   }, [id1, id2]);
+
+// controllo dati in console
+  useEffect(() => {
+  if (products.length > 0) {
+    console.log("Prodotti:", products);
+  }
+}, [products]); 
+
+
+   //loading e error fetch
+  if (loading) return <div className="p-20 text-center font-bold text-indigo-600">Loading comparison...</div>;
+  if (error) return <div className="p-20 text-center text-red-500 font-bold">Error: {error}</div>;
 
   return (
     <>
