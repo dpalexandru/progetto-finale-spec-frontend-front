@@ -1,30 +1,44 @@
-import React, { useContext, useState,useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { ProductContext } from "../context/ProductContext";
 import ProductCard from "../components/ProductCard";
 
 function Home() {
   // stati
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("")
-  const [sortOrder, setSortOrder] = useState("asc") 
+  const [category, setCategory] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [selectedIds, setSelectedIds] = useState([]);
+
+  // Funzione per gestire la selezione (se clicco la stessa, si deseleziona)
+  const handleSelect = (id) => {
+    setSelectedIds((prev) => {
+      if (prev.includes(id)) {
+        return prev.filter((item) => item !== id);
+      }
+      if (prev.length >= 2) {
+        alert("You can only compare 2 items at a time");
+        return prev;
+      }
+      return [...prev, id];
+    });
+  };
 
   // recupero i dati
   const { products, error } = useContext(ProductContext);
 
-useEffect(() => {
-console.log(products)
-}, [products])
-
+  useEffect(() => {
+    console.log(products);
+  }, [products]);
 
   // articoli filtrati
- const filtered = products
-  .filter((p) => p.title.toLowerCase().includes(search.toLowerCase()))
-  .filter((p) => (category ? p.category === category : true))
-  .sort((a, b) => {
-    return sortOrder === "asc" 
-      ? a.title.localeCompare(b.title) 
-      : b.title.localeCompare(a.title);
-  });
+  const filtered = products
+    .filter((p) => p.title.toLowerCase().includes(search.toLowerCase()))
+    .filter((p) => (category ? p.category === category : true))
+    .sort((a, b) => {
+      return sortOrder === "asc"
+        ? a.title.localeCompare(b.title)
+        : b.title.localeCompare(a.title);
+    });
 
   return (
     <>
@@ -34,7 +48,8 @@ console.log(products)
             Dog Harness <span className="text-indigo-600">Comparison Tool</span>
           </h1>
           <p className="text-center text-slate-600 max-w-2xl mx-auto text-lg">
-            Select and <span className="text-indigo-600">Compare</span> the best dog harnesses and find the perfect fit.{" "}
+            Select and <span className="text-indigo-600">Compare</span> the best
+            dog harnesses and find the perfect fit.{" "}
           </p>
         </header>
 
@@ -51,43 +66,42 @@ console.log(products)
           {/* barra di ricerca + select categoria */}
 
           <div className="max-w-3xl mx-auto mb-10 flex flex-col md:flex-row gap-4 items-center justify-center">
-            <select 
+            <select
               className="p-2 border rounded-lg bg-white shadow-sm outline-none focus:ring-2 focus:ring-indigo-500"
-              onChange={(e) => setCategory(e.target.value)}
-            >
+              onChange={(e) => setCategory(e.target.value)}>
               <option value="">All</option>
               <option value="harness">Harness</option>
               <option value="collar">Collar</option>
-
             </select>
 
-          <div className=" flex justify-center">
-            <input
-              type="text"
-              placeholder="Search by title..."
-              className="p-2 border rounded-lg w-full max-w-md shadow-sm focus:ring-2 focus:ring-indigo-500 outline-none"
-              onChange={(e) => setSearch(e.target.value)}
-            />
+            <div className=" flex justify-center">
+              <input
+                type="text"
+                placeholder="Search by title..."
+                className="p-2 border rounded-lg w-full max-w-md shadow-sm focus:ring-2 focus:ring-indigo-500 outline-none"
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+
+            <div className="w-full md:w-40">
+              <select
+                className="w-full p-2.5 border border-slate-200 rounded-lg bg-white shadow-sm outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer text-slate-700 transition-all"
+                onChange={(e) => setSortOrder(e.target.value)}>
+                <option value="asc">Title: A to Z</option>
+                <option value="desc">Title: Z to A</option>
+              </select>
+            </div>
           </div>
 
-
-
-          <div className="w-full md:w-40">
-            <select 
-              className="w-full p-2.5 border border-slate-200 rounded-lg bg-white shadow-sm outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer text-slate-700 transition-all"
-              onChange={(e) => setSortOrder(e.target.value)}
-            >
-              <option value="asc">Title: A to Z</option>
-              <option value="desc">Title: Z to A</option>
-            </select>
-          </div>
-
-          </div>
-                    
           {/* Map prodotti in crd*/}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map((item) => (
-              <ProductCard key={item.id} product={item} />
+              <ProductCard
+                key={item.id}
+                product={item}
+                isSelected={selectedIds.includes(item.id)}
+                onSelect={() => handleSelect(item.id)}
+              />
             ))}
           </div>
         </main>

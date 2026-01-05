@@ -1,10 +1,7 @@
 import React from "react";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const ProductCard = ({ product }) => {
-  const [isSelected, setIsSelected] = useState(false);
-
+function ProductCard({ product, isSelected, onSelect }) {
   return (
     <div
       className={`transition-colors duration-300 ${
@@ -36,9 +33,9 @@ const ProductCard = ({ product }) => {
           <label className="flex items-center gap-2 cursor-pointer bg-slate-50 px-3 py-2 rounded-lg border border-slate-200 hover:bg-slate-100 transition-all flex-1 justify-center">
             <input
               type="checkbox"
-              className="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500"
               checked={isSelected}
-              onChange={() => setIsSelected(!isSelected)}
+              onChange={onSelect}
+              className="w-4 h-4 text-indigo-600 cursor-pointer"
             />
             <span className="text-sm font-medium text-slate-700">Compare</span>
           </label>
@@ -53,6 +50,6 @@ const ProductCard = ({ product }) => {
       </div>
     </div>
   );
-};
+}
 
 export default ProductCard;
