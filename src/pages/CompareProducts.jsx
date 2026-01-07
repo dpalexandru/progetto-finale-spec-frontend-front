@@ -144,13 +144,40 @@ return (
               ))}
             </tr>
 
+                <tr className="border-b border-slate-50">
+              <td className="p-4 font-bold text-slate-800 bg-slate-50/30">No-Pull</td>
+              {products.map(p => (
+                <td key={p.id} className="p-4 text-center border-l border-slate-50 text-lg">
+                  {p.noPull ? "Yes" : "No"}
+                </td>
+              ))}
+            </tr>
+
             {/* colori */}
             <tr className="border-b border-slate-50">
               <td className="p-4 font-bold text-slate-800 bg-slate-50/30">Colors</td>
               {products.map(p => (
                 <td key={p.id} className="p-4 text-center border-l border-slate-50">
                   <div className="flex flex-wrap justify-center gap-1">
-                    {p.color?.slice(0, 3).map((c, i) => (
+                    {p.color?.map((c, i) => (
+                      <span key={i} className="text-[9px] bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200 uppercase font-semibold">
+                        {c}
+                      </span>
+                    ))}
+                    {p.color?.length > 3 && <span className="text-[9px] text-slate-400">+{p.color.length - 3}</span>}
+                  </div>
+                </td>
+              ))}
+            </tr>
+
+            {/* taglie */}
+
+               <tr className="border-b border-slate-50">
+              <td className="p-4 font-bold text-slate-800 bg-slate-50/30">Sizes</td>
+              {products.map(p => (
+                <td key={p.id} className="p-4 text-center border-l border-slate-50">
+                  <div className="flex flex-wrap justify-center gap-1">
+                    {p.dogSize?.map((c, i) => (
                       <span key={i} className="text-[9px] bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200 uppercase font-semibold">
                         {c}
                       </span>

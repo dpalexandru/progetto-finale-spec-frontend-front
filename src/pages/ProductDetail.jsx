@@ -73,7 +73,7 @@ const ProductDetail = () => {
                     </div>
                 </li>
                 <li><strong>Material:</strong> {product.material}</li>
-                <li><strong>Rating:</strong> {product.rating} ({product.reviewCount})</li>
+                <li><span className="font-bold text-yellow-500">⭐ {product.rating}</span> ({product.reviewCount})</li>
 
 
 
