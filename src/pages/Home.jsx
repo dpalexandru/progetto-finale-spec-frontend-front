@@ -37,11 +37,13 @@ function Home() {
   const filtered = products
     .filter((p) => p.title.toLowerCase().includes(search.toLowerCase()))
     .filter((p) => (category ? p.category === category : true))
-    .sort((a, b) => {
-      return sortOrder === "asc"
-        ? a.title.localeCompare(b.title)
-        : b.title.localeCompare(a.title);
-    });
+  .sort((a, b) => {
+  const titleA = a.title.toLowerCase();
+  const titleB = b.title.toLowerCase();
+  return sortOrder === "asc"
+    ? titleA.localeCompare(titleB)
+    : titleB.localeCompare(titleA);
+});
 
   return (
     <>
