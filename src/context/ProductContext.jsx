@@ -8,7 +8,12 @@ export const ProductContext = createContext();
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
-  const [favorites, setFavorites] = useState([]);
+
+  //salvo favorites direttamente in local storage
+  const [favorites, setFavorites] = useState(() => {
+    const saved = localStorage.getItem("harness_favs");
+    return saved ? JSON.parse(saved) : [];
+  });
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -30,6 +35,11 @@ export const ProductProvider = ({ children }) => {
       prev.includes(id) ? prev.filter((favId) => favId !== id) : [...prev, id]
     );
   };
+
+  // modifica in local storage quando cambiano
+  useEffect(() => {
+    localStorage.setItem("harness_favs", JSON.stringify(favorites));
+  }, [favorites]);
 
   return (
     <ProductContext.Provider
