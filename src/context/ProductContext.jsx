@@ -8,6 +8,7 @@ export const ProductContext = createContext();
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -23,8 +24,17 @@ export const ProductProvider = ({ children }) => {
     fetchProducts();
   }, []);
 
+  // aggiungi togli preferito
+  const toggleFavorite = (id) => {
+    setFavorites((prev) =>
+      prev.includes(id) ? prev.filter((favId) => favId !== id) : [...prev, id]
+    );
+  };
+
   return (
-    <ProductContext.Provider value={{ products, error }}>
+    <ProductContext.Provider
+      value={{ products, error, favorites, toggleFavorite }}>
+      {" "}
       {children}
     </ProductContext.Provider>
   );
