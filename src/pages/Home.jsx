@@ -37,13 +37,13 @@ function Home() {
   const filtered = products
     .filter((p) => p.title.toLowerCase().includes(search.toLowerCase()))
     .filter((p) => (category ? p.category === category : true))
-  .sort((a, b) => {
-  const titleA = a.title.toLowerCase();
-  const titleB = b.title.toLowerCase();
-  return sortOrder === "asc"
-    ? titleA.localeCompare(titleB)
-    : titleB.localeCompare(titleA);
-});
+    .sort((a, b) => {
+      const titleA = a.title.toLowerCase();
+      const titleB = b.title.toLowerCase();
+      return sortOrder === "asc"
+        ? titleA.localeCompare(titleB)
+        : titleB.localeCompare(titleA);
+    });
 
   return (
     <>
@@ -127,16 +127,26 @@ function Home() {
             </div>
           </div>
 
-          {/* Map prodotti in crd*/}
+          {/* Map prodotti in crd se vuota messaggio info*/}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filtered.map((item) => (
-              <ProductCard
-                key={item.id}
-                product={item}
-                isSelected={selectedIds.includes(item.id)}
-                onSelect={() => handleSelect(item.id)}
-              />
-            ))}
+            {filtered.length === 0 ? (
+              <div className="col-span-full text-center py-20 bg-white rounded-3xl border-2 border-dashed border-slate-200">
+                <span className="text-5xl">🔍</span>
+                <h3 className="text-xl font-bold mt-4">No results found</h3>
+                <p className="text-slate-500">
+                  Try changing your search or category.
+                </p>
+              </div>
+            ) : (
+              filtered.map((item) => (
+                <ProductCard
+                  key={item.id}
+                  product={item}
+                  isSelected={selectedIds.includes(item.id)}
+                  onSelect={() => handleSelect(item.id)}
+                />
+              ))
+            )}
           </div>
         </main>
       </div>
