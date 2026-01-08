@@ -15,6 +15,24 @@ export const ProductProvider = ({ children }) => {
     return saved ? JSON.parse(saved) : [];
   });
 
+  // logica selezione favoriti globale
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [warning, setWarning] = useState(false);
+
+  const handleSelect = (id) => {
+    setSelectedIds((prev) => {
+      if (prev.includes(id)) {
+        return prev.filter((item) => item !== id);
+      }
+      if (prev.length >= 2) {
+        setWarning(true);
+        setTimeout(() => setWarning(false), 2000);
+        return prev;
+      }
+      return [...prev, id];
+    });
+  };
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -43,7 +61,15 @@ export const ProductProvider = ({ children }) => {
 
   return (
     <ProductContext.Provider
-      value={{ products, error, favorites, toggleFavorite }}>
+      value={{
+        products,
+        error,
+        favorites,
+        toggleFavorite,
+        selectedIds, 
+        handleSelect, 
+        warning,
+      }}>
       {" "}
       {children}
     </ProductContext.Provider>

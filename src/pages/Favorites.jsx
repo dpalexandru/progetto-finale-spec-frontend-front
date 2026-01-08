@@ -1,31 +1,16 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ProductContext } from "../context/ProductContext";
 import ProductCard from "../components/ProductCard";
 
 const Favorites = () => {
   const navigate = useNavigate();
-  const { products, favorites } = useContext(ProductContext);
-  const [selectedIds, setSelectedIds] = useState([]);
-  const [warning, setWarning] = useState(false);
 
-  // Funzione per gestire la selezione (se clicco la stessa, si deseleziona)
-  const handleSelect = (id) => {
-    setSelectedIds((prev) => {
-      if (prev.includes(id)) {
-        return prev.filter((item) => item !== id);
-      }
-      if (prev.length >= 2) {
-        setWarning(true);
-        setTimeout(() => setWarning(false), 2000);
-        return prev;
-      }
-      return [...prev, id];
-    });
-  };
+  //importo context
+  const { products, favorites, selectedIds, handleSelect, warning } =
+    useContext(ProductContext);
 
   const favoriteProducts = products.filter((p) => favorites.includes(p.id));
-
   return (
     <>
       {/* Messaggio di avviso in caso si tenti di selezionare piu di due elementi */}

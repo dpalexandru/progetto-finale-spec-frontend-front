@@ -8,26 +8,9 @@ function Home() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
-  const [selectedIds, setSelectedIds] = useState([]);
-  const [warning, setWarning] = useState(false);
-
-  // Funzione per gestire la selezione (se clicco la stessa, si deseleziona)
-  const handleSelect = (id) => {
-    setSelectedIds((prev) => {
-      if (prev.includes(id)) {
-        return prev.filter((item) => item !== id);
-      }
-      if (prev.length >= 2) {
-        setWarning(true);
-        setTimeout(() => setWarning(false), 2000);
-        return prev;
-      }
-      return [...prev, id];
-    });
-  };
-
-  // recupero i dati
-  const { products, error } = useContext(ProductContext);
+  //importo context
+  const { products, error, selectedIds, handleSelect, warning } =
+    useContext(ProductContext);
 
   useEffect(() => {
     console.log(products);
