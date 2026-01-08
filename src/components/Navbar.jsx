@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav className="p-4 bg-indigo-600 shadow-md flex justify-between items-center">
+    <nav className="p-4 bg-indigo-600 shadow-md flex justify-between items-center navbar-sticky">
       {/* Logo o Titolo */}
       <Link to="/" className="text-white font-bold text-lg">
         DoggyDoggy

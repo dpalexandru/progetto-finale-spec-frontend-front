@@ -5,6 +5,7 @@ import { ProductProvider } from './context/ProductContext';
 import CompareProducts from "./pages/CompareProducts";
 import Navbar from "./components/Navbar";
 import Favorites from "./pages/Favorites";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/compare/:id1/:id2" element={<CompareProducts />} />
           <Route path="/favorites" element={<Favorites />} />
+          <Route path="*" element={<NotFound />} />
 
         </Routes>
       </Router>
